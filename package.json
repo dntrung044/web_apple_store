@@ -23,9 +23,10 @@
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@vueup/vue-quill": "^1.2.0",
+        "@vueuse/core": "^11.0.0",
         "flowbite": "^2.5.1",
-        "lodash": "^4.17.21", 
+        "lodash": "^4.17.21",
         "vue": "^3.4.37",
-        "vue-debounce": "^5.0.0"
+        "vue-flatpickr-component": "^11.0.5"
     }
 }

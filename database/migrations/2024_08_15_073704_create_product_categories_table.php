@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
             $table->string('image')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreign('parent_id')->references('id')->on('product_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

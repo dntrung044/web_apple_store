@@ -15,7 +15,7 @@
                 'rounded-full': rounded,
                 'rounded-lg': !rounded,
             }"
-            class="text-white focus:ring-4 focus:outline-none font-medium text-sm px-5 py-2.5 text-center flex items-center justify-center"
+            class="text-white focus:ring-4 focus:outline-none font-medium text-sm px-5 py-2.5 text-center flex items-center justify-center dark:bg-violet-900 dark:text-gray-100 dark:hover:bg-violet-950 dark:hover:text-gray-50"
         >
             <slot> </slot>
             <div
@@ -27,28 +27,7 @@
                         : text
                 "
             ></div>
-
-            <!-- <div
-                v-html="
-                    disableFlash
-                        ? text
-                        : show && flash.success
-                        ? flash.success
-                        : text
-                "
-            ></div> -->
         </button>
-        <!-- <div class="h-5 my-4">
-      <p
-        v-if="show && !disableFlash"
-        class="'text-transparent bg-transparent text-sm font-medium px-4 border-l-2 border-transparent'"
-        :class="{
-          'text-green-600 bg-green-100 text-sm font-medium px-4 border-l-2 border-green-500':
-            flash && !disableFlash,
-        }"
-        v-html="flash.success"
-      ></p>
-    </div> -->
     </div>
 </template>
 <script>

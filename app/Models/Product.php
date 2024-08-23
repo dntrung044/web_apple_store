@@ -51,10 +51,10 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(ProductReview::class);
-    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany(ProductReview::class);
+    // }
 
     public function scopeFilter($query, array $filters)
     {

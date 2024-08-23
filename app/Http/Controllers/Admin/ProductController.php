@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render(
-            'AdminDashboard/Products/Index',
+            'Admin/Products/Index',
             [
                 'products' => Product::filter(
                     request(['search', 'category', 'tag', 'availability', 'brand', 'dateStart', 'dateEnd', 'sortBy'])
@@ -29,14 +29,14 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return Inertia::render('AdminDashboard/Products/Show', [
+        return Inertia::render('Admin/Products/Show', [
             'product' => $product
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('AdminDashboard/Products/Create', [
+        return Inertia::render('Admin/Products/Create', [
             'categories' => ProductCategory::all()
         ]);
     }
@@ -94,7 +94,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return Inertia::render('AdminDashboard/Products/Edit', [
+        return Inertia::render('Admin/Products/Edit', [
             'product' => $product,
             'categories' => ProductCategory::all()
         ]);

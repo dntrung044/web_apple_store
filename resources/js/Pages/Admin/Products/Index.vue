@@ -1,21 +1,26 @@
 <template>
-    <section
-        class="dark:bg-gray-900 w-full h-screen overflow-x-hidden md:overflow-x-visible p-1"
-    >
-        <div class="mx-auto max-w-screen-xl px-1 pb-3">
-            <h1
-                class="text-2xl text-gray-800 mb-2 font-poppins py-3 sm:py-2 font-medium"
-            >
-                Các sản phẩm
-            </h1>
+    <Head title="Product Management" />
+    <AdminLayout>
+        <!-- Dashboard actions -->
+        <div class="sm:flex sm:justify-between sm:items-center mb-8">
             <AlertDelete
                 v-if="deleteAlertProduct"
                 @close="deleteAlertProduct = false"
                 @confirm="deleteProductConfirm()"
                 :text="deleteAlertProductText"
             ></AlertDelete>
-
-            <div class="my-2">
+            <!-- Left: Title -->
+            <div class="mb-4 sm:mb-0">
+                <h1
+                    class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold"
+                >
+                    Dashboard
+                </h1>
+            </div>
+            <!-- Right: Actions -->
+            <div
+                class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"
+            >
                 <Button
                     @click.prevent="
                         router.visit('/admin-dashboard/products/create')
@@ -24,7 +29,8 @@
                     :color="'blue'"
                 ></Button>
             </div>
-
+        </div>
+        <div class="mx-auto max-w-screen-xl px-1 pb-3">
             <div
                 class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
             >
@@ -50,7 +56,7 @@
                 <PageNavigation :data="products"></PageNavigation>
             </div>
         </div>
-    </section>
+    </AdminLayout>
 </template>
 
 <script>
@@ -88,6 +94,7 @@ import TableProducts from "../../../Components/Admin/Tables/TableProducts.vue";
 import PageNavigation from "../../../Components/Admin/PageNavigation.vue";
 import AlertDelete from "../../../Components/Admin/AlertDelete.vue";
 import Button from "../../../Components/Admin/Form/Button.vue";
+import AdminLayout from "../../../Layouts/AdminLayout.vue";
 
 onMounted(() => {
     initFlowbite();

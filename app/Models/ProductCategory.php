@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ProductCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'slug', 'image', 'active'];
+    protected $fillable = ['name', 'image', 'status', 'parent_id'];
 
-    public function products()
+    public function parent()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsTo(ProductCategory::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_id');
     }
 }
