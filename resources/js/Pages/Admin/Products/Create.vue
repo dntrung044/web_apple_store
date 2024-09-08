@@ -107,10 +107,10 @@
                                         <div class="grid gap-4 sm:grid-cols-2">
                                             <FormInput
                                                 :label="'Văn bản ưu đãi'"
-                                                :name="'offer'"
+                                                :name="'offer_text'"
                                                 :type="'text'"
                                                 :placeholder="'VD: Mua 1 tặng 1...'"
-                                                v-model="productInfo.offer"
+                                                v-model="productInfo.offer_text"
                                             ></FormInput>
                                             <div
                                                 class="grid gap-4 grid-col-2 sm:grid-cols-2"

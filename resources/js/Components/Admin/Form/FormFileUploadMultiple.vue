@@ -194,8 +194,7 @@ export default {
         },
         fileOldImagesRemove(imageUrl, index) {
             if (index !== -1) {
-                // this.oldImages.splice(index, 1);
-                console.log(imageUrl);
+                this.oldImages.splice(index, 1);
                 this.deleteImageAlert = true;
                 this.imageUrl = imageUrl;
                 this.deleteImageAlertText = `Xóa hình ảnh sẽ bị xóa vĩnh viễn?`;

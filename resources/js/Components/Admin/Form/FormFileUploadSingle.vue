@@ -90,7 +90,6 @@ export default {
             if (this.addedFile) {
                 return URL.createObjectURL(this.addedFile[0]);
             } else if (this.oldImage) {
-                console.log(this.oldImage);
                 return this.oldImage;
             } else {
                 return "";

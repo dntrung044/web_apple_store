@@ -21,7 +21,7 @@ return new class extends Migration
             $table->json('more_images')->nullable();
             $table->decimal('price', 10, 2);
             $table->decimal('price_sale', 10, 2)->nullable();
-            $table->string('offer')->nullable();
+            $table->string('offer_text')->nullable();
             $table->string('availability')->nullable();
             $table->integer('inventory')->default(0);
             $table->decimal('total_rating_star', 2, 1)->default(0);

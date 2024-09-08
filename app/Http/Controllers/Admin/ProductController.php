@@ -88,8 +88,6 @@ class ProductController extends Controller
         try {
             $product = Product::find($id);
             $attributes = $this->validateProduct($product);
-
-            // Xử lý cập nhật thumbnail
             if ($attributes['thumbnail'] ?? false) {
                 $attributes['thumbnail'] =
                     $fileManagement->uploadFile(
@@ -99,8 +97,6 @@ class ProductController extends Controller
                         oldFile: $product['thumbnail']
                     );
             }
-
-            // Xử lý cập nhật more_images
             if ($attributes['more_images'] ?? false) {
                 $attributes['more_images'] =
                     $fileManagement->uploadFile(
@@ -109,13 +105,10 @@ class ProductController extends Controller
                         path: 'images/products/' . $product->slug . '/more_images'
                     );
             }
-
-            // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
             $product->update($attributes);
 
             return back()->with('success', 'Sản phẩm đã được cập nhật!');
         } catch (\Exception $e) {
-            // Bắt lỗi và trả về thông báo lỗi
             return back()->withInput()->withErrors(['error' => 'Lỗi trong quá trình cập nhật sản phẩm: ' . $e->getMessage()]);
         }
     }
@@ -162,7 +155,7 @@ class ProductController extends Controller
             'tag' => 'nullable',
             'inventory' => 'nullable',
             'availability' => 'required',
-            'offer' => 'nullable',
+            'offer_text' => 'nullable',
             'price_sale' => 'nullable',
             'price' => 'required',
             'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],

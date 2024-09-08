@@ -28,7 +28,7 @@ class Product extends Model
         'more_images',
         'price',
         'price_sale',
-        'offer',
+        'offer_text',
         'availability',
         'inventory',
         'total_rating_star',
