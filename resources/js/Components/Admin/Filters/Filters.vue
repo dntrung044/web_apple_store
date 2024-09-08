@@ -59,7 +59,7 @@ export default {
                 this.filters.sortBy !== undefined ? this.filters.sortBy : "",
             filterByFilter: {},
             filterQueries: {},
-            url: this.sendToUrl ?? "/admin-dashboard",
+            url: this.sendToUrl ?? "/dashboard",
         };
     },
 

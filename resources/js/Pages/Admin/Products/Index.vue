@@ -1,62 +1,54 @@
 <template>
-    <Head title="Product Management" />
-    <AdminLayout>
-        <!-- Dashboard actions -->
-        <div class="sm:flex sm:justify-between sm:items-center mb-8">
+    <section
+        class="dark:bg-gray-900 h-screen overflow-x-hidden md:overflow-x-visible p-1"
+    >
+        <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
+            <Head title="Product Management" />
+            <Breadcrump
+                :links="{
+                    'Danh sách sản phẩm': 'products',
+                }"
+            ></Breadcrump>
+            <Button
+                @click.prevent="router.visit('/dashboard/products/create')"
+                :text="'+ Thêm mới sản phẩm'"
+                :color="'blue'"
+            ></Button>
             <AlertDelete
                 v-if="deleteAlertProduct"
                 @close="deleteAlertProduct = false"
                 @confirm="deleteProductConfirm()"
                 :text="deleteAlertProductText"
             ></AlertDelete>
-            <!-- Left: Title -->
-            <div class="mb-4 sm:mb-0">
-                <h1
-                    class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold"
+
+            <div class="mx-auto max-w-screen-xl px-1 pb-3">
+                <div
+                    class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
                 >
-                    Dashboard
-                </h1>
-            </div>
-            <!-- Right: Actions -->
-            <div
-                class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"
-            >
-                <Button
-                    @click.prevent="
-                        router.visit('/admin-dashboard/products/create')
-                    "
-                    :text="'+ Thêm mới sản phẩm'"
-                    :color="'blue'"
-                ></Button>
+                    <Filters
+                        :searchPlaceHolder="'Tìm kiếm theo ID, Tên, Mô tả..'"
+                        :filters="filters"
+                        :currentPage="products.current_page"
+                        :dataName="'products'"
+                        :sortByFilters="{ dateSort: true, priceSort: true }"
+                        :enableFilters="{
+                            search: true,
+                            dateRange: true,
+                            sortBy: true,
+                            filterBy: { availability: true, tag: true },
+                        }"
+                    ></Filters>
+
+                    <TableProducts
+                        :products="products"
+                        @deleteProduct="deleteProduct"
+                    ></TableProducts>
+
+                    <PageNavigation :data="products"></PageNavigation>
+                </div>
             </div>
         </div>
-        <div class="mx-auto max-w-screen-xl px-1 pb-3">
-            <div
-                class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
-            >
-                <Filters
-                    :searchPlaceHolder="'Tìm kiếm theo ID, Tên, Mô tả..'"
-                    :filters="filters"
-                    :currentPage="products.current_page"
-                    :dataName="'products'"
-                    :sortByFilters="{ dateSort: true, priceSort: true }"
-                    :enableFilters="{
-                        search: true,
-                        dateRange: true,
-                        sortBy: true,
-                        filterBy: { availability: true, tag: true },
-                    }"
-                ></Filters>
-
-                <TableProducts
-                    :products="products"
-                    @deleteProduct="deleteProduct"
-                ></TableProducts>
-
-                <PageNavigation :data="products"></PageNavigation>
-            </div>
-        </div>
-    </AdminLayout>
+    </section>
 </template>
 
 <script>
@@ -75,11 +67,11 @@ export default {
             window.scrollTo(0, 0);
             this.deleteAlertProduct = true;
             this.productId = productId;
-            this.deleteAlertProductText = `Việc xóa sản phẩm sẽ bị xóa vĩnh viễn khỏi cơ sở dữ liệu. Bạn không thể khôi phục sản phẩm nữa. Bạn có chắc chắn muốn xóa không?`;
+            this.deleteAlertProductText = `Xóa sản phẩm sẽ bị xóa vĩnh viễn?`;
             setTimeout(() => (this.deleteAlertProduct = false), 5000);
         },
         deleteProductConfirm() {
-            router.delete(`/admin-dashboard/products/${this.productId}`, {
+            router.delete(`/dashboard/products/${this.productId}`, {
                 preserveState: false,
             });
         },
@@ -94,8 +86,7 @@ import TableProducts from "../../../Components/Admin/Tables/TableProducts.vue";
 import PageNavigation from "../../../Components/Admin/PageNavigation.vue";
 import AlertDelete from "../../../Components/Admin/AlertDelete.vue";
 import Button from "../../../Components/Admin/Form/Button.vue";
-import AdminLayout from "../../../Layouts/AdminLayout.vue";
-
+import Breadcrump from "../../../Components/Admin/Breadcrump.vue";
 onMounted(() => {
     initFlowbite();
 });

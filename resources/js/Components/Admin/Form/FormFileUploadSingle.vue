@@ -21,7 +21,7 @@
         </div>
 
         <div v-if="errorSize" class="text-red-500 text-xs my-1">
-            Upload file less than 2MB
+            Tải lên tệp có kích thước nhỏ hơn 2MB
         </div>
 
         <div
@@ -50,7 +50,7 @@
             <div
                 class="bg-contain bg-center bg-no-repeat shadow-2xl saturate-50 bg-blend-overlay bg-gray-900/75 w-full h-full"
                 :class="{ 'rounded-full': rounded, 'rounded-lg': !rounded }"
-                :style="`background-image: url(${uploadedFile()})`"
+                :style="`background-image: url('${uploadedFile()}')`"
             ></div>
         </div>
     </div>

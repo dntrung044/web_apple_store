@@ -6,38 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileManagement
 {
-    // public function uploadFile(
-    //     string $path,
-    //     $file = null,
-    //     array $files = null,
-    //     array $appendFilesTo = array(),
-    //     bool $deleteOldFile = false,
-    //     string $oldFile = null,
-    //     string $storeAsName = ''
-    // ) {
-    //     $storagePath = 'public/' . $path;
-    //     if (!empty($files)) {
-    //         foreach ($files as $file) {
-    //             array_push($appendFilesTo, $file->store($path));
-    //         }
-    //         return $appendFilesTo;
-    //     } else if (!empty($file) && !empty($file->extension() ?? '')) {
-    //         if ($deleteOldFile) {
-    //             if (Storage::disk('public')->exists($oldFile)) {
-    //                 Storage::delete($oldFile);
-    //             }
-    //         }
-    //         if (empty($storeAsName)) {
-    //             $storeAsName = $file->getClientOriginalName();
-    //         } else {
-    //             $storeAsName = $storeAsName . '.' . $file->extension();
-    //         }
-    //         return $file->storeAs($path, $storeAsName);
-    //     } else {
-    //         dd('No file/files given to uploadFile() in FileManagement Service!');
-    //         return false;
-    //     }
-    // }
     public function uploadFile(
         string $path,
         $file = null,
@@ -47,17 +15,15 @@ class FileManagement
         string $oldFile = null,
         string $storeAsName = ''
     ) {
-        $storagePath = 'public/' . $path;
-
         if (!empty($files)) {
             foreach ($files as $file) {
-                array_push($appendFilesTo, str_replace('public/', '', $file->store($storagePath)));
+                array_push($appendFilesTo, $file->store($path));
             }
             return $appendFilesTo;
         } else if (!empty($file) && !empty($file->extension() ?? '')) {
             if ($deleteOldFile) {
                 if (Storage::disk('public')->exists($oldFile)) {
-                    Storage::disk('public')->delete($oldFile);
+                    Storage::delete($oldFile);
                 }
             }
             if (empty($storeAsName)) {
@@ -65,13 +31,12 @@ class FileManagement
             } else {
                 $storeAsName = $storeAsName . '.' . $file->extension();
             }
-            return str_replace('public/', '', $file->storeAs($storagePath, $storeAsName));
+            return $file->storeAs($path, $storeAsName);
         } else {
-            dd('No file/files given to uploadFile() in FileManagement Service!');
+            dd('Không có tệp/các tệp nào được cung cấp để tải lên File() trong Dịch vụ quản lý tệp!');
             return false;
         }
     }
-
 
     public function deleteFile(string $fileUrl, array $oldFilesArray = array())
     {

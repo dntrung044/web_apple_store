@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 40,
                     'total_rating_star' => 4.7,
                     'total_rating_number' => 800,
-                    'category_id' => 3, // Giả sử ID danh mục 3 là Máy tính bảng
+                    'category_id' => 3,
                     'brand' => 'Apple',
                     'tag' => 'máy tính bảng,ipad',
                     'slug' => Str::slug('iPad Pro 12.9-inch'),
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 70,
                     'total_rating_star' => 4.9,
                     'total_rating_number' => 1500,
-                    'category_id' => 4, // Giả sử ID danh mục 4 là Đồng hồ thông minh
+                    'category_id' => 1,
                     'brand' => 'Apple',
                     'tag' => 'đồng hồ thông minh,apple watch',
                     'slug' => Str::slug('Apple Watch Series 8'),
@@ -130,7 +130,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 100,
                     'total_rating_star' => 4.8,
                     'total_rating_number' => 1800,
-                    'category_id' => 5, // Giả sử ID danh mục 5 là Tai nghe
+                    'category_id' => 1,
                     'brand' => 'Apple',
                     'tag' => 'tai nghe,airpods',
                     'slug' => Str::slug('AirPods Pro'),
@@ -154,7 +154,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 150,
                     'total_rating_star' => 4.9,
                     'total_rating_number' => 2200,
-                    'category_id' => 6, // Giả sử ID danh mục 6 là Phụ kiện
+                    'category_id' => 3,
                     'brand' => 'Apple',
                     'tag' => 'phụ kiện,apple pencil',
                     'slug' => Str::slug('Apple Pencil (Gen 2)'),
@@ -178,7 +178,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 45,
                     'total_rating_star' => 4.7,
                     'total_rating_number' => 1000,
-                    'category_id' => 2, // Máy tính xách tay
+                    'category_id' => 2,
                     'brand' => 'Apple',
                     'tag' => 'máy tính xách tay,macbook air',
                     'slug' => Str::slug('MacBook Air M2'),
@@ -202,7 +202,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 20,
                     'total_rating_star' => 4.9,
                     'total_rating_number' => 850,
-                    'category_id' => 7, // Giả sử ID danh mục 7 là Máy tính để bàn
+                    'category_id' => 2,
                     'brand' => 'Apple',
                     'tag' => 'máy tính để bàn,imac',
                     'slug' => Str::slug('iMac 24-inch M1'),
@@ -226,7 +226,7 @@ class ProductSeeder extends Seeder
                     'inventory' => 75,
                     'total_rating_star' => 4.6,
                     'total_rating_number' => 650,
-                    'category_id' => 8, // Giả sử ID danh mục 8 là Thiết bị giải trí
+                    'category_id' => 1,
                     'brand' => 'Apple',
                     'tag' => 'giải trí,apple tv',
                     'slug' => Str::slug('Apple TV 4K'),

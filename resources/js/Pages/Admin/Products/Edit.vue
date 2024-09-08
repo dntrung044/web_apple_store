@@ -1,12 +1,15 @@
 <template>
+    <Head title="Product Edit" />
     <section
         class="dark:bg-gray-900 h-screen overflow-x-hidden md:overflow-x-visible p-1"
     >
         <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
             <!-- Modal content -->
-
             <Breadcrump
-                :links="{ products: 'products', 'Chỉnh sửa sản phẩm': '' }"
+                :links="{
+                    'Danh sách sản phẩm': 'products',
+                    'Chỉnh sửa sản phẩm': '',
+                }"
             ></Breadcrump>
 
             <AlertDelete
@@ -31,7 +34,6 @@
                     :heading="`Chỉnh sửa sản phẩm - #${product.id}`"
                     :url="$page.url"
                 ></ModalHeader>
-
                 <!-- Modal body -->
                 <form action="#" @submit.prevent="">
                     <div>
@@ -51,8 +53,6 @@
                                                 :name="'name'"
                                                 :type="'text'"
                                                 v-model="productInfo.name"
-                                                @change="changeNameToSlug"
-                                                :error="errors.name"
                                             ></FormInput>
                                             <FormSelect
                                                 :label="'Danh mục'"
@@ -63,7 +63,6 @@
                                                 v-model="
                                                     productInfo.category_id
                                                 "
-                                                :error="errors.category_id"
                                                 :optionsArray="categories"
                                                 :optionName="'name'"
                                                 :optionValue="'id'"
@@ -78,13 +77,11 @@
                                                 :name="'brand'"
                                                 :type="'text'"
                                                 v-model="productInfo.brand"
-                                                :error="errors.brand"
                                             ></FormInput>
                                             <FormSelect
-                                                :label="'Tag'"
+                                                :label="'Nhãn'"
                                                 :name="'tag'"
                                                 v-model="productInfo.tag"
-                                                :error="errors.tag"
                                                 :optionsArray="[
                                                     { value: 'best_seller' },
                                                     { value: 'new_arrival' },
@@ -99,7 +96,6 @@
                                                 :name="'inventory'"
                                                 :type="'number'"
                                                 v-model="productInfo.inventory"
-                                                :error="errors.inventory"
                                             ></FormInput>
                                             <FormSelect
                                                 :label="'Hiện trạng'"
@@ -107,7 +103,6 @@
                                                 v-model="
                                                     productInfo.availability
                                                 "
-                                                :error="errors.availability"
                                                 :optionsArray="[
                                                     { value: 'available' },
                                                     { value: 'out_of_stock' },
@@ -122,9 +117,8 @@
                                                 :label="'Văn bản ưu đãi'"
                                                 :name="'offer_text'"
                                                 :type="'text'"
-                                                :placeholder="'ex: Buy 1 Get One..'"
+                                                :placeholder="'VD: Mua 1 tặng 1..'"
                                                 v-model="productInfo.offer_text"
-                                                :error="errors.offer_text"
                                             ></FormInput>
                                             <div
                                                 class="grid gap-4 grid-col-2 sm:grid-cols-2"
@@ -136,14 +130,12 @@
                                                     v-model="
                                                         productInfo.price_sale
                                                     "
-                                                    :error="errors.price_sale"
                                                 ></FormInput>
                                                 <FormInput
                                                     :label="'Giá'"
                                                     :name="'price'"
                                                     :type="'number'"
                                                     v-model="productInfo.price"
-                                                    :error="errors.price"
                                                 ></FormInput>
                                             </div>
                                         </div>
@@ -155,7 +147,6 @@
                                                 v-model="productInfo.slug"
                                                 :disabled="true"
                                                 @change="changeToSlug()"
-                                                :error="errors.slug"
                                             ></FormInput>
                                             <FormInput
                                                 :label="'Đường dẫn'"
@@ -163,7 +154,6 @@
                                                 :type="'text'"
                                                 :readOnly="`http://127.0.0.1:8000/products/${productInfo.slug}`"
                                                 :disabled="true"
-                                                :error="errors.link"
                                             ></FormInput>
                                         </div>
                                     </div>
@@ -288,7 +278,7 @@
                                                             newAttribute.attribute_label
                                                         "
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                        placeholder="ex: Color/Size/.."
+                                                        placeholder="vd: Màu sắc/Kích thước/.."
                                                     />
                                                 </div>
                                                 <div class="col-span-5">
@@ -306,7 +296,7 @@
                                                             newAttribute.attribute_value
                                                         "
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                        placeholder="Red, Blue,  or XS,S,M,L.."
+                                                        placeholder="Đỏ, Xanh dương hoặc XS, S, M, L.."
                                                     />
                                                 </div>
 
@@ -339,20 +329,27 @@
                                             v-model="
                                                 productInfo.short_description
                                             "
-                                            :row="'5'"
-                                            :placeholder="'Give a short Description'"
-                                            :error="errors.short_description"
+                                            :row="'4'"
+                                            :placeholder="'Cung cấp một mô tả ngắn'"
                                         >
                                         </FormTextArea>
-                                        <FormTextArea
-                                            :label="'Mô tả chi tiết'"
-                                            :name="'description'"
-                                            v-model="productInfo.description"
-                                            :row="'5'"
-                                            :placeholder="'Give a detailed Description'"
-                                            :error="errors.description"
-                                        >
-                                        </FormTextArea>
+
+                                        <div style="">
+                                            <label
+                                                for="short_description"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                >Mô tả ngắn</label
+                                            >
+                                            <QuillEditor
+                                                v-model:content="
+                                                    productInfo.description
+                                                "
+                                                :name="'description'"
+                                                :placeholder="'Cung cấp một mô tả chi tiết'"
+                                                contentType="html"
+                                                theme="snow"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -368,13 +365,9 @@
                                             @fileChange="
                                                 (file) => (thumbnail = file)
                                             "
-                                            :label="'Thumbnail'"
+                                            :label="'Hình thu nhỏ'"
                                             :oldImageLink="oldThumbnail"
                                             :name="'thumbnail'"
-                                            :error="
-                                                errors.thumbnail ??
-                                                errors['thumbnail.0']
-                                            "
                                         ></FormFileUploadSingle>
 
                                         <FormFileUploadMultiple
@@ -382,10 +375,9 @@
                                                 (files) => (more_images = files)
                                             "
                                             @files-delete="deleteMoreImage"
-                                            :label="'More Images'"
+                                            :label="'Thêm nhiều hình ảnh'"
                                             :oldImageUrls="oldMoreImages"
                                             :name="'more_images'"
-                                            :error="errors.more_images"
                                         >
                                         </FormFileUploadMultiple>
                                     </div>
@@ -425,11 +417,15 @@ export default {
             productInfo: this.product,
             form: {},
             newAttribute: {},
-            productAttributes: JSON.parse(this.product.product_details),
+            productAttributes: this.isJSON(this.product.product_details)
+                ? JSON.parse(this.product.product_details)
+                : {},
             addedImages: [],
             addedThumbnail: null,
             oldThumbnail: this.product.thumbnail_url,
-            oldMoreImages: JSON.parse(this.product.more_images_url),
+            oldMoreImages: this.isJSON(this.product.more_images_url)
+                ? JSON.parse(this.product.more_images_url)
+                : [],
             thumbnail: false,
             more_images: false,
             deleteAlertImage: false,
@@ -440,6 +436,14 @@ export default {
         };
     },
     methods: {
+        isJSON(str) {
+            try {
+                JSON.parse(str);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        },
         slugify(str) {
             return str
                 .toLowerCase()
@@ -468,23 +472,21 @@ export default {
             window.scrollTo(0, 0);
             this.deleteAlertImage = true;
             this.imageUrl = imageUrl;
-            this.deleteAlertImageText = `Deleting the image will permanently removed from the database. You can't recover the
-      image again. Are you sure about deleting?`;
+            this.deleteAlertImageText = `Xóa hình ảnh sẽ bị xóa vĩnh viễn?`;
             setTimeout(() => (this.deleteAlertImage = false), 5000);
         },
         deleteProduct() {
             window.scrollTo(0, 0);
             this.deleteAlertProduct = true;
-            this.deleteAlertProductText = `Deleting the Product will permanently removed from the database. You can't recover the
-      product again. Are you sure about deleting?`;
+            this.deleteAlertProductText = `Việc xóa Sản phẩm sẽ bị xóa vĩnh viễn khỏi cơ sở dữ liệu. Bạn không thể khôi phục lại sản phẩm. Bạn có chắc chắn muốn xóa không?`;
             setTimeout(() => (this.deleteAlertProduct = false), 5000);
         },
         deleteProductConfirm() {
-            router.delete(`/admin-dashboard/products/${this.product.id}`);
+            router.delete(`/dashboard/products/${this.product.id}`);
         },
         deleteMoreImageConfirm() {
             router.put(
-                `/admin-dashboard/products/${this.product.id}/deleteImage`,
+                `/dashboard/products/${this.product.id}/deleteImage`,
                 {
                     imageUrl: this.imageUrl,
                 },
@@ -514,7 +516,7 @@ export default {
             console.log(this.productInfo);
             this.productInfo._method = "put";
             router.post(
-                `/admin-dashboard/products/${this.product.id}`,
+                `/dashboard/products/${this.product.id}`,
                 this.productInfo,
                 {
                     preserveState: false,
@@ -539,6 +541,8 @@ import FormFileUploadMultiple from "../../../Components/Admin/Form/FormFileUploa
 import Button from "../../../Components/Admin/Form/Button.vue";
 import Errors from "../../../Components/Admin/Form/Errors.vue";
 import AlertDelete from "../../../Components/Admin/AlertDelete.vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 onMounted(() => {
     initFlowbite();

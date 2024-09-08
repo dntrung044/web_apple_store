@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreign('parent_id')->references('id')->on('product_categories')->onDelete('cascade');
             $table->timestamps();

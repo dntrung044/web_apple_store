@@ -20,7 +20,7 @@
             <slot> </slot>
             <div
                 v-html="
-                    disableFlashπ
+                    disableFlash
                         ? text
                         : show && flash && flash.success
                         ? flash.success

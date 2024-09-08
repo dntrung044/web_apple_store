@@ -36,11 +36,11 @@
                         <p
                             class="mb-2 text-sm text-gray-500 dark:text-gray-400"
                         >
-                            <span class="font-semibold">Click to upload</span>
-                            or drag and drop
+                            <span class="font-semibold">Nhấp để tải lên</span>
+                            hoặc kéo và thả
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF (MAX. 800x400px)
+                            SVG, PNG, JPG hoặc GIF (TỐI ĐA 800x400px)
                         </p>
                     </div>
                     <input
@@ -106,7 +106,7 @@
             for=""
             class="block my-2 text-sm font-medium text-gray-900 dark:text-white"
             v-if="oldImages.length > 0"
-            >Current Images</label
+            >Hình ảnh hiện tại</label
         >
 
         <div
@@ -136,7 +136,7 @@
                     </div>
                     <div
                         class="bg-cover bg-center shadow-2xl saturate-50 bg-blend-overlay bg-gray-900/75 h-24 w-full rounded-lg"
-                        :style="`background-image: url(${imageSrc})`"
+                        :style="`background-image: url('${imageSrc}')`"
                     ></div>
                 </div>
             </div>
@@ -175,7 +175,8 @@ export default {
             Array.from(files).forEach((file) => {
                 if (file.size > 20000000) {
                     this.errorSize = true;
-                    this.errorSizeText = "Upload image with size less than 2MB";
+                    this.errorSizeText =
+                        "Tải lên hình ảnh có kích thước nhỏ hơn 2MB";
                 }
             });
             if (!this.errorSize) {
@@ -197,8 +198,7 @@ export default {
                 console.log(imageUrl);
                 this.deleteImageAlert = true;
                 this.imageUrl = imageUrl;
-                this.deleteImageAlertText = `Deleting the image will permanently removed from the database. You can't recover the
-      image again. Are you sure about deleting?`;
+                this.deleteImageAlertText = `Xóa hình ảnh sẽ bị xóa vĩnh viễn?`;
                 setTimeout(() => (this.deleteImageAlert = false), 5000);
                 this.$emit("files-delete", imageUrl);
             }

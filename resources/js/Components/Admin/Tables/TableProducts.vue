@@ -35,15 +35,10 @@
                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
                         <div class="items-center mr-1">
-                            <img
-                                :src="`/storage/${product.thumbnail}`"
-                                alt="Product Image"
-                                class="h-8 w-auto mr-3"
-                            />
-                            <!-- <div
-                            class="w-20 h-20 bg-cover bg-center rounded-lg"
-                            :style="`background-image: url(${product.thumbnail})`"
-                        ></div> -->
+                            <div
+                                class="w-20 h-20 bg-cover bg-center rounded-lg"
+                                :style="`background-image: url('${product.thumbnail_url}')`"
+                            ></div>
                             <p class="font-medium">{{ product.name }}</p>
                         </div>
                     </th>
@@ -141,7 +136,7 @@
                                     class="mb-2 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:yellow:bg-blue-600 dark:focus:ring-yellow-700"
                                 >
                                     <Link
-                                        :href="`/admin-dashboard/products/${product.id}/edit`"
+                                        :href="`/dashboard/products/${product.id}/edit`"
                                         class="flex items-center justify-center w-full text-sm font-medium"
                                     >
                                         <svg
@@ -167,7 +162,7 @@
                                     class="mb-2 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-900"
                                 >
                                     <Link
-                                        :href="`/admin-dashboard/products/${product.id}`"
+                                        :href="`/dashboard/products/${product.id}`"
                                         class="flex items-center justify-center w-full text-sm font-medium"
                                     >
                                         <svg
@@ -246,6 +241,7 @@ export default {
                 new Date(date)
             );
         },
+
         formatCurrency(value) {
             return new Intl.NumberFormat("vi-VN", {
                 style: "currency",

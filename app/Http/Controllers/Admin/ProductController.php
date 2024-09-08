@@ -40,7 +40,6 @@ class ProductController extends Controller
             'categories' => ProductCategory::all()
         ]);
     }
-
     public function store(FileManagement $fileManagement)
     {
         $attributes = $this->validateProduct();
@@ -48,7 +47,7 @@ class ProductController extends Controller
         if ($attributes['thumbnail'] ?? false) {
             $attributes['thumbnail'] =
                 $fileManagement->uploadFile(
-                    file: $attributes['thumbnail'],
+                    file: $attributes['thumbnail'] ?? false,
                     path: 'images/products/' . $attributes['slug'] . '/thumbnail'
                 );
         }
@@ -56,81 +55,76 @@ class ProductController extends Controller
         if ($attributes['more_images'] ?? false) {
             $attributes['more_images'] =
                 $fileManagement->uploadFile(
-                    files: $attributes['more_images'],
+                    files: $attributes['more_images'] ?? false,
                     path: 'images/products/' . $attributes['slug'] . '/more_images'
                 );
         }
 
         Product::create($attributes);
 
-        return redirect('/admin-dashboard/products')->with('success', 'Sản phẩm đã được tạo!');
+        return redirect('/dashboard/products')->with('success', 'Đã thêm sản phẩm!');
     }
 
-
-    // public function store(FileManagement $fileManagement)
-    // {
-    //     $attributes = $this->validateProduct();
-
-    //     if ($attributes['thumbnail'] ?? false) {
-    //         $attributes['thumbnail'] =
-    //             $fileManagement->uploadFile(
-    //                 file: $attributes['thumbnail'] ?? false,
-    //                 path: 'images/products/' . $attributes['slug'] . '/thumbnail'
-    //             );
-    //     }
-
-    //     if ($attributes['more_images'] ?? false) {
-    //         $attributes['more_images'] =
-    //             $fileManagement->uploadFile(
-    //                 files: $attributes['more_images'] ?? false,
-    //                 path: 'images/products/' . $attributes['slug'] . '/more_images'
-    //             );
-    //     }
-
-    //     Product::create($attributes);
-
-    //     return redirect('/admin-dashboard/products')->with('success', 'Product Created!');
-    // }
-
-    public function edit(Product $product)
+    public function edit($id)
     {
+        if (!$id) {
+            abort(404, 'Không tìm thấy sản phẩm');
+        }
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            abort(404, 'Không tìm thấy sản phẩm');
+        }
+
         return Inertia::render('Admin/Products/Edit', [
             'product' => $product,
             'categories' => ProductCategory::all()
         ]);
     }
 
-    public function update(Product $product, FileManagement $fileManagement)
+    public function update($id, FileManagement $fileManagement)
     {
-        $attributes = $this->validateProduct($product);
+        try {
+            $product = Product::find($id);
+            $attributes = $this->validateProduct($product);
 
-        if ($attributes['thumbnail'] ?? false) {
-            $attributes['thumbnail'] =
-                $fileManagement->uploadFile(
-                    file: $attributes['thumbnail'] ?? false,
-                    path: 'images/products/' . $product->slug . '/thumbnail',
-                    deleteOldFile: true,
-                    oldFile: $product['thumbnail']
-                );
+            // Xử lý cập nhật thumbnail
+            if ($attributes['thumbnail'] ?? false) {
+                $attributes['thumbnail'] =
+                    $fileManagement->uploadFile(
+                        file: $attributes['thumbnail'] ?? false,
+                        path: 'images/products/' . $product->slug . '/thumbnail',
+                        deleteOldFile: true,
+                        oldFile: $product['thumbnail']
+                    );
+            }
+
+            // Xử lý cập nhật more_images
+            if ($attributes['more_images'] ?? false) {
+                $attributes['more_images'] =
+                    $fileManagement->uploadFile(
+                        files: $attributes['more_images'] ?? false,
+                        appendFilesTo: $product->more_images,
+                        path: 'images/products/' . $product->slug . '/more_images'
+                    );
+            }
+
+            // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
+            $product->update($attributes);
+
+            return back()->with('success', 'Sản phẩm đã được cập nhật!');
+        } catch (\Exception $e) {
+            // Bắt lỗi và trả về thông báo lỗi
+            return back()->withInput()->withErrors(['error' => 'Lỗi trong quá trình cập nhật sản phẩm: ' . $e->getMessage()]);
         }
-
-        if ($attributes['more_images'] ?? false) {
-            $attributes['more_images'] =
-                $fileManagement->uploadFile(
-                    files: $attributes['more_images'] ?? false,
-                    appendFilesTo: $product->more_images,
-                    path: 'images/products/' . $product->slug . '/more_images'
-                );
-        }
-
-        $product->update($attributes);
-
-        return back()->with('success', 'Sản phẩm đã được cập nhật!');
     }
 
-    public function deleteImage(Product $product, FileManagement $fileManagement)
+    public function deleteImage($id, FileManagement $fileManagement)
     {
 
+        $product = Product::find($id);
+        dd($product->id);
         $product->more_images =
             $fileManagement->deleteFile(
                 fileUrl: request()->input('imageUrl'),
@@ -142,18 +136,24 @@ class ProductController extends Controller
         return back()->with('success', 'Đã xoá hình ảnh sản phẩm!');
     }
 
-
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        $product = Product::find($id);
+        if (!$product) {
+            return redirect('/dashboard/products')->withErrors(['error' => 'Không tìm thấy sản phẩm']);
+        }
         $product->delete();
         Storage::deleteDirectory('images/products/' . $product->slug);
 
-        return redirect('/admin-dashboard/products')->with('success', 'Đã xoá hình ảnh sản phẩm!');
+        return Inertia::location('/dashboard/products');
     }
 
     protected function validateProduct(?Product $product = null): array
     {
+        // $product = Product::find($id);
+        // dd($product->id);
         $product ??= new Product();
+        // dd($product->id);
 
         return request()->validate([
             'name' => 'required',

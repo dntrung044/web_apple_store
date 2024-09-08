@@ -14,6 +14,7 @@ use Carbon\Carbon;
 class Product extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
     protected $with = ['category'];
     protected $appends = ['thumbnail_url', 'more_images_url', 'link', 'price_with_currency'];
 
@@ -224,7 +225,7 @@ class Product extends Model
     {
         return Attribute::make(
             get: function ($value) {
-                $currencySymbol = EcommerceSettings::first()->currency_symbol;
+                $currencySymbol = EcommerceSettings::first()->currency_symbol ?? 'đ';
                 return "{$currencySymbol} {$this->price}";
             }
         );

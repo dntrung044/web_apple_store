@@ -1,4 +1,5 @@
 <template>
+    <Head title="Product Add" />
     <section
         class="dark:bg-gray-900 h-screen overflow-x-hidden md:overflow-x-visible p-1"
     >
@@ -37,7 +38,6 @@
                                                 :type="'text'"
                                                 v-model="productInfo.name"
                                                 @change="changeNameToSlug"
-                                                :error="errors.name"
                                             ></FormInput>
                                             <FormSelect
                                                 :label="'Danh mục'"
@@ -45,7 +45,6 @@
                                                 v-model="
                                                     productInfo.category_id
                                                 "
-                                                :error="errors.category_id"
                                                 :optionsArray="categories"
                                                 :optionName="'name'"
                                                 :optionValue="'id'"
@@ -60,17 +59,21 @@
                                                 :name="'brand'"
                                                 :type="'text'"
                                                 v-model="productInfo.brand"
-                                                :error="errors.brand"
                                             ></FormInput>
                                             <FormSelect
                                                 :label="'Nhãn'"
                                                 :name="'tag'"
                                                 v-model="productInfo.tag"
-                                                :error="errors.tag"
                                                 :optionsArray="[
-                                                    { value: 'best_seller' },
-                                                    { value: 'new_arrival' },
-                                                    { value: 'end_of_season' },
+                                                    {
+                                                        value: 'best_seller',
+                                                    },
+                                                    {
+                                                        value: 'new_arrival',
+                                                    },
+                                                    {
+                                                        value: 'end_of_season',
+                                                    },
                                                 ]"
                                                 :optionName="'value'"
                                                 :optionValue="'value'"
@@ -81,7 +84,6 @@
                                                 :name="'inventory'"
                                                 :type="'number'"
                                                 v-model="productInfo.inventory"
-                                                :error="errors.inventory"
                                             ></FormInput>
                                             <FormSelect
                                                 :label="'Sẵn có'"
@@ -89,11 +91,14 @@
                                                 v-model="
                                                     productInfo.availability
                                                 "
-                                                :error="errors.availability"
                                                 :optionsArray="[
                                                     { value: 'available' },
-                                                    { value: 'out_of_stock' },
-                                                    { value: 'coming_soon' },
+                                                    {
+                                                        value: 'out_of_stock',
+                                                    },
+                                                    {
+                                                        value: 'coming_soon',
+                                                    },
                                                 ]"
                                                 :optionName="'value'"
                                                 :optionValue="'value'"
@@ -106,7 +111,6 @@
                                                 :type="'text'"
                                                 :placeholder="'VD: Mua 1 tặng 1...'"
                                                 v-model="productInfo.offer"
-                                                :error="errors.offer_text"
                                             ></FormInput>
                                             <div
                                                 class="grid gap-4 grid-col-2 sm:grid-cols-2"
@@ -118,14 +122,12 @@
                                                     v-model="
                                                         productInfo.price_sale
                                                     "
-                                                    :error="errors.price_sale"
                                                 ></FormInput>
                                                 <FormInput
                                                     :label="'Giá gốc'"
                                                     :name="'price'"
                                                     :type="'number'"
                                                     v-model="productInfo.price"
-                                                    :error="errors.price"
                                                 ></FormInput>
                                             </div>
                                         </div>
@@ -136,7 +138,6 @@
                                                 :type="'text'"
                                                 v-model="productInfo.slug"
                                                 @change="changeToSlug()"
-                                                :error="errors.slug"
                                             ></FormInput>
                                             <FormInput
                                                 :label="'Đường dẫn'"
@@ -144,7 +145,6 @@
                                                 :type="'text'"
                                                 :readOnly="`{domain-name}/products/${productInfo.slug}`"
                                                 :disabled="true"
-                                                :error="errors.link"
                                             ></FormInput>
                                         </div>
                                     </div>
@@ -271,7 +271,7 @@
                                                             newAttribute.attribute_label
                                                         "
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                        placeholder="ex: Color/Size/.."
+                                                        placeholder="VD: Màu sắc/Kích thước/.."
                                                     />
                                                 </div>
                                                 <div class="col-span-5">
@@ -289,7 +289,7 @@
                                                             newAttribute.attribute_value
                                                         "
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                        placeholder="Red, Blue,  or XS,S,M,L.."
+                                                        placeholder="Đỏ, Xanh dương hoặc XS, S, M, L.."
                                                     />
                                                 </div>
 
@@ -324,7 +324,6 @@
                                             "
                                             :row="'5'"
                                             :placeholder="'Cung cấp một mô tả ngắn'"
-                                            :error="errors.short_description"
                                         >
                                         </FormTextArea>
                                         <div style="">
@@ -337,21 +336,11 @@
                                                 v-model:content="
                                                     productInfo.description
                                                 "
+                                                :placeholder="'Cung cấp một mô tả chi tiết'"
                                                 contentType="html"
                                                 theme="snow"
-                                                :error="errors.description"
                                             />
                                         </div>
-
-                                        <!-- <FormTextArea
-                                            :label="'Mô tả chi tiết'"
-                                            :name="'description'"
-                                            v-model="productInfo.description"
-                                            :row="'5'"
-                                            :placeholder="'Cung cấp một mô tả chi tiết'"
-                                            :error="errors.description"
-                                        >
-                                        </FormTextArea> -->
                                     </div>
                                 </div>
 
@@ -371,10 +360,6 @@
                                             "
                                             :label="'Hình thu nhỏ'"
                                             :name="'thumbnail'"
-                                            :error="
-                                                errors.thumbnail ??
-                                                errors['thumbnail.0']
-                                            "
                                         ></FormFileUploadSingle>
 
                                         <FormFileUploadMultiple
@@ -385,7 +370,6 @@
                                             "
                                             :label="'Thêm hình ảnh'"
                                             :name="'more_images'"
-                                            :error="errors.more_images"
                                         >
                                         </FormFileUploadMultiple>
                                     </div>
@@ -393,7 +377,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <Errors :errors="errors ?? false"></Errors>
                         <div class="flex items-center space-x-4">
@@ -412,7 +395,6 @@
 
 <script>
 import { useForm } from "@inertiajs/vue3";
-
 export default {
     props: ["errors", "categories"],
     data() {
@@ -464,7 +446,7 @@ export default {
             );
             console.log(this.productInfo);
             this.form = useForm(this.productInfo);
-            this.form.post(`/admin-dashboard/products`, {
+            this.form.post(`/dashboard/products`, {
                 preserveScroll: true,
             });
         },
@@ -485,6 +467,7 @@ import FormFileUploadMultiple from "../../../Components/Admin/Form/FormFileUploa
 import Button from "../../../Components/Admin/Form/Button.vue";
 import Errors from "../../../Components/Admin/Form/Errors.vue";
 import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 onMounted(() => {
     initFlowbite();

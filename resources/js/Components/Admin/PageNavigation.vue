@@ -20,7 +20,7 @@
                 v-for="link in data.links"
                 :href="link.url"
                 v-html="link.label"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white hidden md:block"
+                class="items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white hidden md:block"
                 :class="{
                     'text-gray-500': !link.url,
                     'font-bold': link.active,
@@ -50,7 +50,7 @@ export default {
     data() {
         return {
             dataLinksMobile:
-                this.data.links.length > 7
+                this.data.links.length > 5
                     ? [
                           this.data.links[0],
                           this.data.links[this.data.links.length - 1],
