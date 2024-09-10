@@ -31,7 +31,7 @@
             >
                 <!-- Modal header -->
                 <ModalHeader
-                    :heading="`Chỉnh sửa sản phẩm - #${product.id}`"
+                    :heading="`#${product.id} Chỉnh sửa sản phẩm`"
                     :url="$page.url"
                 ></ModalHeader>
                 <!-- Modal body -->
@@ -370,6 +370,16 @@
                                             :name="'thumbnail'"
                                         ></FormFileUploadSingle>
 
+                                        <!-- <FormFileUploadMultiple
+                                            @files-change="
+                                                (files) => (more_images = files)
+                                            "
+                                            :deleteImageUrl="`/dashboard/products/${product.id}/deleteImage`"
+                                            :label="'Thêm nhiều hình ảnh'"
+                                            :oldImageUrls="oldMoreImages"
+                                            :name="'more_images'"
+                                        >
+                                        </FormFileUploadMultiple> -->
                                         <FormFileUploadMultiple
                                             @files-change="
                                                 (files) => (more_images = files)
@@ -417,15 +427,11 @@ export default {
             productInfo: this.product,
             form: {},
             newAttribute: {},
-            productAttributes: this.isJSON(this.product.product_details)
-                ? JSON.parse(this.product.product_details)
-                : {},
+            productAttributes: JSON.parse(this.product.product_details),
             addedImages: [],
             addedThumbnail: null,
             oldThumbnail: this.product.thumbnail_url,
-            oldMoreImages: this.isJSON(this.product.more_images_url)
-                ? JSON.parse(this.product.more_images_url)
-                : [],
+            oldMoreImages: JSON.parse(this.product.more_images_url),
             thumbnail: false,
             more_images: false,
             deleteAlertImage: false,
@@ -460,29 +466,34 @@ export default {
                 this.productAttributes[this.newAttribute.attribute_label] =
                     this.newAttribute.attribute_value;
                 this.newAttribute = {};
-                // this, (this.newAttribute = {});
             }
-            console.log(this.productAttributes);
-            console.log(this.productInfo);
         },
         deleteProductAttribute(key) {
             delete this.productAttributes[key];
-        },
-        deleteMoreImage(imageUrl) {
-            window.scrollTo(0, 0);
-            this.deleteAlertImage = true;
-            this.imageUrl = imageUrl;
-            this.deleteAlertImageText = `Xóa hình ảnh sẽ bị xóa vĩnh viễn?`;
-            setTimeout(() => (this.deleteAlertImage = false), 5000);
         },
         deleteProduct() {
             window.scrollTo(0, 0);
             this.deleteAlertProduct = true;
             this.deleteAlertProductText = `Việc xóa Sản phẩm sẽ bị xóa vĩnh viễn khỏi cơ sở dữ liệu. Bạn không thể khôi phục lại sản phẩm. Bạn có chắc chắn muốn xóa không?`;
-            setTimeout(() => (this.deleteAlertProduct = false), 5000);
+            setTimeout(() => (this.deleteAlertProduct = false), 8000);
         },
+
         deleteProductConfirm() {
             router.delete(`/dashboard/products/${this.product.id}`);
+        },
+
+        deleteMoreImage(imageUrl) {
+            this.deleteAlertImage = true;
+            this.imageUrl = imageUrl;
+            this.deleteAlertImageText = `xoá ảnh?`;
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    console.log("Cuộn lên đầu trang");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 0);
+            });
+
+            setTimeout(() => (this.deleteAlertImage = false), 10000);
         },
         deleteMoreImageConfirm() {
             router.put(
@@ -503,7 +514,6 @@ export default {
                 this.productAttributes
             );
             if (this.thumbnail) {
-                console.log("thumbanil here");
                 this.productInfo.thumbnail = this.thumbnail;
             } else {
                 delete this.productInfo.thumbnail;
@@ -513,7 +523,6 @@ export default {
             } else {
                 delete this.productInfo.more_images;
             }
-            console.log(this.productInfo);
             this.productInfo._method = "put";
             router.post(
                 `/dashboard/products/${this.product.id}`,

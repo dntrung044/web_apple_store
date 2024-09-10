@@ -10,6 +10,7 @@
                 }"
             ></Breadcrump>
             <Button
+                class="p-3"
                 @click.prevent="router.visit('/dashboard/products/create')"
                 :text="'+ Thêm mới sản phẩm'"
                 :color="'blue'"
@@ -21,7 +22,7 @@
                 :text="deleteAlertProductText"
             ></AlertDelete>
 
-            <div class="mx-auto max-w-screen-xl px-1 pb-3">
+            <div class="mx-auto max-w-screen-xl px-1 p-3">
                 <div
                     class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
                 >
@@ -68,7 +69,7 @@ export default {
             this.deleteAlertProduct = true;
             this.productId = productId;
             this.deleteAlertProductText = `Xóa sản phẩm sẽ bị xóa vĩnh viễn?`;
-            setTimeout(() => (this.deleteAlertProduct = false), 5000);
+            setTimeout(() => (this.deleteAlertProduct = false), 80000);
         },
         deleteProductConfirm() {
             router.delete(`/dashboard/products/${this.productId}`, {

@@ -40,6 +40,7 @@ class ProductController extends Controller
             'categories' => ProductCategory::all()
         ]);
     }
+
     public function store(FileManagement $fileManagement)
     {
         $attributes = $this->validateProduct();
@@ -115,9 +116,11 @@ class ProductController extends Controller
 
     public function deleteImage($id, FileManagement $fileManagement)
     {
-
         $product = Product::find($id);
-        dd($product->id);
+        if (!$product) {
+            abort(404, 'Không tìm thấy hình ảnh');
+        }
+
         $product->more_images =
             $fileManagement->deleteFile(
                 fileUrl: request()->input('imageUrl'),
@@ -125,16 +128,12 @@ class ProductController extends Controller
             );
 
         $product->save();
-
-        return back()->with('success', 'Đã xoá hình ảnh sản phẩm!');
+        return Inertia::location(route('admin.products.edit', ['product' => $id]));
     }
 
     public function destroy($id)
     {
         $product = Product::find($id);
-        if (!$product) {
-            return redirect('/dashboard/products')->withErrors(['error' => 'Không tìm thấy sản phẩm']);
-        }
         $product->delete();
         Storage::deleteDirectory('images/products/' . $product->slug);
 
@@ -159,7 +158,7 @@ class ProductController extends Controller
             'price_sale' => 'nullable',
             'price' => 'required',
             'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],
-            'thumbnail' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
+            // 'thumbnail' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
             'more_images.*' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
             'description' => 'required',
             'short_description' => 'required',
@@ -167,7 +166,7 @@ class ProductController extends Controller
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ], [
-            'thumbnail' => 'Tải lên hình thu nhỏ dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
+            // 'thumbnail' => 'Tải lên hình thu nhỏ dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
             'more_images.*' => 'Tải lên hình dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
         ]);
     }

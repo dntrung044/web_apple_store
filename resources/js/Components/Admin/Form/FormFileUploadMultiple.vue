@@ -64,14 +64,6 @@
             </div>
         </div>
 
-        <AlertDelete
-            class="my-4"
-            v-if="deleteImageAlert"
-            @close="deleteImageAlert = false"
-            @confirm="deleteImageConfirm"
-            :text="deleteImageAlertText"
-        ></AlertDelete>
-
         <div class="grid grid-cols-2 gap-2 py-2 justify-items-stretch">
             <div v-for="(file, index) in addedFiles" :key="file">
                 <div
@@ -146,24 +138,16 @@
 
 <script>
 import { router } from "@inertiajs/vue3";
-
+import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 export default {
-    props: [
-        "label",
-        "error",
-        "name",
-        "oldImageUrls",
-        "deleteImageUrl",
-        "preserveStateData",
-    ],
+    props: ["label", "error", "name", "oldImageUrls"],
     data() {
         return {
             addedFiles: [],
             oldImages: this.oldImageUrls ?? [],
             errorSize: false,
             errorSizeText: "",
-            deleteImageAlert: false,
-            deleteImageAlertText: "",
             imageUrl: null,
         };
     },
@@ -192,29 +176,9 @@ export default {
                 this.addedFiles.splice(index, 1);
             }
         },
+
         fileOldImagesRemove(imageUrl, index) {
-            if (index !== -1) {
-                this.oldImages.splice(index, 1);
-                this.deleteImageAlert = true;
-                this.imageUrl = imageUrl;
-                this.deleteImageAlertText = `Xóa hình ảnh sẽ bị xóa vĩnh viễn?`;
-                setTimeout(() => (this.deleteImageAlert = false), 5000);
-                this.$emit("files-delete", imageUrl);
-            }
-        },
-        deleteImageConfirm() {
-            router.put(
-                this.deleteImageUrl,
-                {
-                    imageUrl: this.imageUrl,
-                },
-                {
-                    preserveState: false,
-                    preserveScroll: true,
-                    only: [this.preserveStateData, "flash", "errors"],
-                }
-            );
-            this.imageUrl = null;
+            this.$emit("files-delete", imageUrl);
         },
         uploadedImage(file) {
             if (file) {
@@ -225,8 +189,4 @@ export default {
         },
     },
 };
-</script>
-
-<script setup>
-import AlertDelete from "../AlertDelete.vue";
 </script>
