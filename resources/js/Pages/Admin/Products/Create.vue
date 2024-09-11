@@ -351,11 +351,10 @@
                                         >
                                             Hình ảnh sản phẩm:
                                         </p>
-
                                         <FormFileUploadSingle
                                             @fileChange="
                                                 (file) =>
-                                                    (this.productInfo.thumbnail =
+                                                    (productInfo.thumbnail =
                                                         file[0])
                                             "
                                             :label="'Hình thu nhỏ'"
@@ -365,10 +364,10 @@
                                         <FormFileUploadMultiple
                                             @filesChange="
                                                 (files) =>
-                                                    (this.productInfo.more_images =
+                                                    (productInfo.more_images =
                                                         files)
                                             "
-                                            :label="'Thêm hình ảnh'"
+                                            :label="'Thêm nhiều hình ảnh'"
                                             :name="'more_images'"
                                         >
                                         </FormFileUploadMultiple>
@@ -399,7 +398,7 @@ export default {
     props: ["errors", "categories"],
     data() {
         return {
-            productInfo: {},
+            productInfo: { thumbnail: null },
             form: {},
             newAttribute: {},
             productAttributes: {},
@@ -444,6 +443,11 @@ export default {
             this.productInfo.product_details = JSON.stringify(
                 this.productAttributes
             );
+            if (this.productInfo.thumbnail) {
+                console.log("thumbnail here:", this.productInfo.thumbnail); // Kiểm tra giá trị thumbnail
+            } else {
+                console.log("No thumbnail provided.");
+            }
             console.log(this.productInfo);
             this.form = useForm(this.productInfo);
             this.form.post(`/dashboard/products`, {

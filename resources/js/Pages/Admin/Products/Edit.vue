@@ -363,23 +363,13 @@
 
                                         <FormFileUploadSingle
                                             @fileChange="
-                                                (file) => (thumbnail = file)
+                                                (file) => (thumbnail = file[0])
                                             "
                                             :label="'Hình thu nhỏ'"
                                             :oldImageLink="oldThumbnail"
                                             :name="'thumbnail'"
                                         ></FormFileUploadSingle>
 
-                                        <!-- <FormFileUploadMultiple
-                                            @files-change="
-                                                (files) => (more_images = files)
-                                            "
-                                            :deleteImageUrl="`/dashboard/products/${product.id}/deleteImage`"
-                                            :label="'Thêm nhiều hình ảnh'"
-                                            :oldImageUrls="oldMoreImages"
-                                            :name="'more_images'"
-                                        >
-                                        </FormFileUploadMultiple> -->
                                         <FormFileUploadMultiple
                                             @files-change="
                                                 (files) => (more_images = files)
@@ -477,22 +467,15 @@ export default {
             this.deleteAlertProductText = `Việc xóa Sản phẩm sẽ bị xóa vĩnh viễn khỏi cơ sở dữ liệu. Bạn không thể khôi phục lại sản phẩm. Bạn có chắc chắn muốn xóa không?`;
             setTimeout(() => (this.deleteAlertProduct = false), 8000);
         },
-
         deleteProductConfirm() {
             router.delete(`/dashboard/products/${this.product.id}`);
         },
 
         deleteMoreImage(imageUrl) {
+            window.scrollTo(0, 0);
             this.deleteAlertImage = true;
             this.imageUrl = imageUrl;
             this.deleteAlertImageText = `xoá ảnh?`;
-            this.$nextTick(() => {
-                setTimeout(() => {
-                    console.log("Cuộn lên đầu trang");
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                }, 0);
-            });
-
             setTimeout(() => (this.deleteAlertImage = false), 10000);
         },
         deleteMoreImageConfirm() {
@@ -509,11 +492,13 @@ export default {
             );
             this.imageUrl = null;
         },
+
         updateProduct() {
             this.productInfo.product_details = JSON.stringify(
                 this.productAttributes
             );
             if (this.thumbnail) {
+                console.log("thumbnail ", this.thumbnail);
                 this.productInfo.thumbnail = this.thumbnail;
             } else {
                 delete this.productInfo.thumbnail;

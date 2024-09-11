@@ -138,8 +138,7 @@
 
 <script>
 import { router } from "@inertiajs/vue3";
-import { Inertia } from "@inertiajs/inertia";
-import axios from "axios";
+
 export default {
     props: ["label", "error", "name", "oldImageUrls"],
     data() {
@@ -157,7 +156,7 @@ export default {
             console.log(files);
             this.errorSize = false;
             Array.from(files).forEach((file) => {
-                if (file.size > 20000000) {
+                if (file.size > 2500000) {
                     this.errorSize = true;
                     this.errorSizeText =
                         "Tải lên hình ảnh có kích thước nhỏ hơn 2MB";
@@ -170,15 +169,14 @@ export default {
                 this.$emit("files-change", this.addedFiles);
             }
         },
+        fileOldImagesRemove(imageUrl, index) {
+            this.$emit("files-delete", imageUrl);
+        },
         fileAddedFilesRemove(index) {
             this.errorSize = false;
             if (index !== -1) {
                 this.addedFiles.splice(index, 1);
             }
-        },
-
-        fileOldImagesRemove(imageUrl, index) {
-            this.$emit("files-delete", imageUrl);
         },
         uploadedImage(file) {
             if (file) {

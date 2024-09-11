@@ -89,6 +89,7 @@ class ProductController extends Controller
         try {
             $product = Product::find($id);
             $attributes = $this->validateProduct($product);
+            // dd($attributes['thumbnail']);
             if ($attributes['thumbnail'] ?? false) {
                 $attributes['thumbnail'] =
                     $fileManagement->uploadFile(
@@ -142,10 +143,7 @@ class ProductController extends Controller
 
     protected function validateProduct(?Product $product = null): array
     {
-        // $product = Product::find($id);
-        // dd($product->id);
         $product ??= new Product();
-        // dd($product->id);
 
         return request()->validate([
             'name' => 'required',
@@ -158,7 +156,7 @@ class ProductController extends Controller
             'price_sale' => 'nullable',
             'price' => 'required',
             'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],
-            // 'thumbnail' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
+            'thumbnail' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
             'more_images.*' => $product->exists ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048' : 'required|mimes:jpeg,png,jpg,gif |max:5048',
             'description' => 'required',
             'short_description' => 'required',
@@ -166,7 +164,7 @@ class ProductController extends Controller
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ], [
-            // 'thumbnail' => 'Tải lên hình thu nhỏ dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
+            'thumbnail' => 'Tải lên hình thu nhỏ dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
             'more_images.*' => 'Tải lên hình dưới dạng jpg/png với kích thước nhỏ hơn 2MB',
         ]);
     }
