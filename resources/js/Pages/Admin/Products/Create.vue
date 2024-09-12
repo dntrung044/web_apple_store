@@ -459,15 +459,15 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 
-import Breadcrump from "../../../Components/Admin/Breadcrump.vue";
-import ModalHeader from "../../../Components/Admin/ModalHeader.vue";
-import FormInput from "../../../Components/Admin/Form/FormInput.vue";
-import FormSelect from "../../../Components/Admin/Form/FormSelect.vue";
-import FormTextArea from "../../../Components/Admin/Form/FormTextArea.vue";
-import FormFileUploadSingle from "../../../Components/Admin/Form/FormFileUploadSingle.vue";
-import FormFileUploadMultiple from "../../../Components/Admin/Form/FormFileUploadMultiple.vue";
-import Button from "../../../Components/Admin/Form/Button.vue";
-import Errors from "../../../Components/Admin/Form/Errors.vue";
+import Breadcrump from "@/Components/Admin/Breadcrump.vue";
+import ModalHeader from "@/Components/Admin/ModalHeader.vue";
+import FormInput from "@/Components/Admin/Form/FormInput.vue";
+import FormSelect from "@/Components/Admin/Form/FormSelect.vue";
+import FormTextArea from "@/Components/Admin/Form/FormTextArea.vue";
+import FormFileUploadSingle from "@/Components/Admin/Form/FormFileUploadSingle.vue";
+import FormFileUploadMultiple from "@/Components/Admin/Form/FormFileUploadMultiple.vue";
+import Button from "@/Components/Admin/Form/Button.vue";
+import Errors from "@/Components/Admin/Form/Errors.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 

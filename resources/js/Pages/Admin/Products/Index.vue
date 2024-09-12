@@ -82,12 +82,12 @@ export default {
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
-import Filters from "../../../Components/Admin/Filters/Filters.vue";
-import TableProducts from "../../../Components/Admin/Tables/TableProducts.vue";
-import PageNavigation from "../../../Components/Admin/PageNavigation.vue";
-import AlertDelete from "../../../Components/Admin/AlertDelete.vue";
-import Button from "../../../Components/Admin/Form/Button.vue";
-import Breadcrump from "../../../Components/Admin/Breadcrump.vue";
+import Filters from "@/Components/Admin/Filters/Filters.vue";
+import TableProducts from "@/Components/Admin/Tables/TableProducts.vue";
+import PageNavigation from "@/Components/Admin/PageNavigation.vue";
+import AlertDelete from "@/Components/Admin/AlertDelete.vue";
+import Button from "@/Components/Admin/Form/Button.vue";
+import Breadcrump from "@/Components/Admin/Breadcrump.vue";
 onMounted(() => {
     initFlowbite();
 });
