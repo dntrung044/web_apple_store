@@ -6,7 +6,10 @@
         <div class="mx-auto max-w-screen-xl px-1 my-11 pb-11">
             <!-- Modal content -->
             <Breadcrump
-                :links="{ products: 'products', 'Thêm sản phẩm': '' }"
+                :links="{
+                    'Danh sách sản phẩm': 'products',
+                    'Thêm sản phẩm': '',
+                }"
             ></Breadcrump>
 
             <div
@@ -33,7 +36,7 @@
                                         </p>
                                         <div class="grid gap-4 sm:grid-cols-2">
                                             <FormInput
-                                                :label="'Tên thuốc'"
+                                                :label="'Tên sản phẩm'"
                                                 :name="'name'"
                                                 :type="'text'"
                                                 v-model="productInfo.name"
@@ -302,7 +305,7 @@
                                                         "
                                                         class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                                     >
-                                                        Add
+                                                        Thêm
                                                     </button>
                                                 </div>
                                             </div>
@@ -398,7 +401,7 @@ export default {
     props: ["errors", "categories"],
     data() {
         return {
-            productInfo: { thumbnail: null },
+            productInfo: {},
             form: {},
             newAttribute: {},
             productAttributes: {},
@@ -443,11 +446,6 @@ export default {
             this.productInfo.product_details = JSON.stringify(
                 this.productAttributes
             );
-            if (this.productInfo.thumbnail) {
-                console.log("thumbnail here:", this.productInfo.thumbnail); // Kiểm tra giá trị thumbnail
-            } else {
-                console.log("No thumbnail provided.");
-            }
             console.log(this.productInfo);
             this.form = useForm(this.productInfo);
             this.form.post(`/dashboard/products`, {

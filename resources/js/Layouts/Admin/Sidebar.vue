@@ -268,13 +268,13 @@
                                     </li>
                                     <li class="mb-1 last:mb-0">
                                         <Link
-                                            href="/dashboard/products/categories"
+                                            href="/dashboard/product_categories"
                                             class="block transition truncate"
                                             :class="
                                                 currentRoute ===
-                                                    '/categories' ||
+                                                    '/dashboard/product_categories' ||
                                                 currentRoute.includes(
-                                                    'categories'
+                                                    '/dashboard/product_categories'
                                                 )
                                                     ? 'text-violet-500'
                                                     : 'text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
