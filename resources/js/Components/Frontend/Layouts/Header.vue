@@ -13,7 +13,10 @@
             </a>
             <!--  menu (for mobile) -->
             <div class="flex lg:hidden">
-                <button id="hamburger" class="text-white focus:outline-none">
+                <button
+                    @click="toggleMobilemenu"
+                    class="text-white focus:outline-none"
+                >
                     <svg
                         class="w-6 h-6"
                         fill="none"
@@ -38,7 +41,7 @@
                         >
                     </li>
 
-                    <Dropdown title="Men" :items="menItems" />
+                    <CategoryMenu :categories="categories" />
 
                     <li>
                         <a
@@ -144,151 +147,19 @@
 
     <!-- Mobile menu -->
     <nav
-        id="mobile-menu-placeholder"
+        v-if="isMobilemenuVisible"
         class="mobile-menu flex flex-col items-center space-y-8 lg:hidden"
     >
         <ul class="w-full">
             <li>
-                <a
-                    href="index.html"
-                    class="hover:text-secondary font-bold block py-2"
+                <a href="/" class="hover:text-secondary font-bold block py-2"
                     >Home</a
                 >
             </li>
 
             <!-- Men Dropdown -->
-            <li class="relative group" x-data="{ open: false }">
-                <a
-                    @click="
-                        open = !open;
-                        $event.preventDefault();
-                    "
-                    class="hover:text-secondary font-bold py-2 flex justify-center items-center cursor-pointer"
-                >
-                    <span>Men</span>
-                    <span @click.stop="open = !open">
-                        <i
-                            :class="
-                                open
-                                    ? 'fas fa-chevron-up text-xs ml-2'
-                                    : 'fas fa-chevron-down text-xs ml-2'
-                            "
-                        ></i>
-                    </span>
-                </a>
-                <ul
-                    class="mobile-dropdown-menu space-y-2"
-                    x-show="open"
-                    x-transition
-                >
-                    <li>
-                        <a
-                            href="shop.html"
-                            class="hover:text-secondary font-bold block pt-2 pb-3"
-                            >Shop Men</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Men item 1</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Men item 2</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Men item 3</a
-                        >
-                    </li>
-                </ul>
-            </li>
+            <CategoryMenu :categories="categories" />
 
-            <!-- Women Dropdown -->
-            <li class="relative group" x-data="{ open: false }">
-                <a
-                    @click="
-                        open = !open;
-                        $event.preventDefault();
-                    "
-                    class="hover:text-secondary font-bold py-2 flex justify-center items-center cursor-pointer"
-                >
-                    <span>Women</span>
-                    <span @click.stop="open = !open">
-                        <i
-                            :class="
-                                open
-                                    ? 'fas fa-chevron-up text-xs ml-2'
-                                    : 'fas fa-chevron-down text-xs ml-2'
-                            "
-                        ></i>
-                    </span>
-                </a>
-                <ul
-                    class="mobile-dropdown-menu pl-4 space-y-2"
-                    x-show="open"
-                    x-transition
-                >
-                    <li>
-                        <a
-                            href="shop.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Shop Women</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Women item 1</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Women item 2</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="single-product-page.html"
-                            class="hover:text-secondary font-bold block py-2"
-                            >Women item 3</a
-                        >
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a
-                    href="shop.html"
-                    class="hover:text-secondary font-bold block py-2"
-                    >Shop</a
-                >
-            </li>
-            <li>
-                <a
-                    href="single-product-page.html"
-                    class="hover:text-secondary font-bold block py-2"
-                    >Product</a
-                >
-            </li>
-            <li>
-                <a
-                    href="404.html"
-                    class="hover:text-secondary font-bold block py-2"
-                    >404 page</a
-                >
-            </li>
             <li>
                 <a
                     href="checkout.html"
@@ -301,17 +172,17 @@
             <a
                 href="register.html"
                 class="bg-primary hover:bg-transparent text-white hover:text-primary border border-primary font-semibold px-4 py-2 rounded-full inline-block items-center justify-center min-w-[110px]"
-                >Register</a
+                >Đăng ký</a
             >
             <a
                 href="register.html"
                 class="bg-primary hover:bg-transparent text-white hover:text-primary border border-primary font-semibold px-4 py-2 rounded-full inline-block items-center justify-center min-w-[110px]"
-                >Login</a
+                >Đăng nhập</a
             >
             <a
                 href="register.html"
                 class="bg-primary hover:bg-transparent text-white hover:text-primary border border-primary font-semibold px-4 py-2 rounded-full inline-block items-center justify-center min-w-[110px]"
-                >Cart -&nbsp;<span>5</span>&nbsp;items</a
+                >Giỏ hàng -&nbsp;<span>5</span>&nbsp;items</a
             >
         </div>
         <!-- Search field -->
@@ -321,7 +192,7 @@
             <input
                 type="text"
                 class="w-full p-2 border border-gray-300 rounded"
-                placeholder="Search for products..."
+                placeholder="Tìm kiếm sản phẩm..."
             />
         </div>
     </nav>
@@ -331,17 +202,22 @@ export default {
     name: "Header",
     data() {
         return {
+            categories: this.$page.props.product_categories,
             isSearchVisible: false,
+            isMobilemenuVisible: false,
         };
     },
     methods: {
         toggleSearch() {
             this.isSearchVisible = !this.isSearchVisible;
         },
+        toggleMobilemenu() {
+            this.isMobilemenuVisible = !this.isMobilemenuVisible;
+        },
     },
 };
 </script>
 <script setup>
-import Dropdown from "../Dropdown.vue";
+import CategoryMenu from "../CategoryMenu.vue";
+import CategoryMenuMobile from "../CategoryMenuMobile.vue";
 </script>
-<style lang=""></style>
