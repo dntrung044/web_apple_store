@@ -9,6 +9,7 @@
         <div
             class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden"
         >
+            <Notification v-if="show"></Notification>
             <!-- Site header -->
             <Header
                 :sidebarOpen="sidebarOpen"
@@ -28,12 +29,14 @@
 import { ref } from "vue";
 import Sidebar from "@/Layouts/Admin/Sidebar.vue";
 import Header from "@/Layouts/Admin/Header.vue";
+import Notification from "@/Layouts/Admin/Notification.vue";
 
 export default {
     name: "Dashboard",
     components: {
         Sidebar,
         Header,
+        Notification,
     },
     setup() {
         const sidebarOpen = ref(false);

@@ -17,6 +17,11 @@ class ProductCategory extends Model
         return $this->hasMany(ProductCategory::class, 'parent_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(ProductCategory::class, 'parent_id');
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query
